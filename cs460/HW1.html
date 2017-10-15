@@ -2,13 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">		
-		<!-- Bootstrap CSS-->
-		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
 		<!--My CSS-->
 		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
 		
-		<title>Home Page Example</title>
+		<title>Homework One</title>
 	</head>
 	<body>
 	 <div class="container-fluid">
@@ -16,12 +18,121 @@
 			<li><a href="index.html">CS 460</a></li>
 		</ul>
 	 </div>
+	 <div class="container">
 		<h1>Homework 1</h1>
 		 <p>For this initial assignment we are tasked with setting up a local and remote repository using github or bitbucket,
 			and then creating a website. Afterwards we're to set up a github pages to display both the work,
 			and describe our process of solving the problem.</p>
-		<h3>Creating The Repositories</h3>
-		<p></p>
+			<p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW1.html">here</a></p>
+			<p>The source code can be found <a href="https://github.com/LeoThalman/HW1">here</a></p>
+			<p>A demo can be seen <a href="HW1/index.html">here</a></p>
+		<h3>Creating and linking the repositories</h3>
+		<p>the first thing I needed to do was set up an account with github. I've used github in the past to look
+			at some code but i've never done anything else. Setting up the account wasn't much of an issue and after making
+			it I set up the remote repo and started working on the local repo on my desktop.</p>		
+		  <pre>	
+			<code class="language-git">
+				$ cd "cs 46x"/cs460/HW1
+				$ git init
+				$ git config --global user.name "LeoThalman"
+				$ git config --global user.email "a@email.com"
+				$ touch README.md
+				$ git remote add origin "https://github.com/LeoThalman/HW1"
+				$ git add README.md
+				$ git push origin master
+			</code>
+		  </pre>
+		<p>I used the code above to navigate into the folders I had set up for this project and initialize the git repo
+			I then created a readme to push to the remote repo to make sure the connection worked. Afterwards I did a similar test
+			on my laptop but instead pulled the README down. Working on both my laptop and desktop helped to get me used
+			to the whole workflow of git in general. I had never used git to save work before so at first it was odd but after
+			a couple days it became much easier to use. Now that i'm used to it I find it really helpful in easing the process of transferring
+			my work from the desktop to the laptop and vice versa</p>
+		<h3>Starting the Website</h3>
+		<p>Creating the website was the easier of these tasks as i've built webpages in the past. However it has been a while since i've
+			done any work with them so it took a little bit to get my bearings. I've never worked with bootstrap either so that was a new
+			experience for me. To start off with I created a basic site to test out css and bootstrap.</p>
+			
+		<pre>
+			<code class="language-html">
+				&lt;!DOCTYPE html&gt;
+				&lt;html&gt;
+				&lt;head&gt;
+				&lt;meta charset="utf-8" /&gt;
+				&lt;link rel="stylesheet" href="css/style.css" type="text/css"&gt;
+				&lt;title&gt;test Title&lt;/title&gt;
+				&lt;/head&gt;
+				&lt;h1&gt;test header&lt;/h1&gt;
+				&lt;body&gt;&lt;p&gt;Test Paragraph&lt;/p&gt;&lt;/body&gt;
+				&lt;/html&gt;
+			</code>
+		</pre>
+		<p>with that code set I proceeded to test out various css tags, such as color and background as well as width padding.
+			Once I started to get a handle on things I downloaded boostrap and added the css file to the page to
+			begin to get a feel for it. I used bootstrap's containers to hold the navbar and the body, but decided to style the navbar
+			with  my own css.</p>
+		<pre>
+			<code class="language-css">
+			.nav a:link, .nav a:visited{
+				color:white;
+				text-align:center;
+				text-decoration: none;
+				display: inline-block;
+				padding:0px 10px;
+				margin-right:10px;
+			}
+			.nav a:hover{
+				color:gray;
+			}
+			.nav{
+				border-radius: 10px;
+				border: 2px solid #000000;
+				background: #000000;
+				color: #FFFFFF;
+				margin: 10px;
+				padding: 15px;
+			}
+			</code>
+		</pre>
+		<p>I went around looking at different options for what you could do to navbars and settled on this.
+			Next I added in two more pages and linked them all together, then filled one with a table and the other with
+			two columns and two lists. For the main page I filled in a couple paragraphs with lorem ipsum filler text. From
+			what I gathered the main purpose of this project was more to show we could make a website and less to fill it with
+			actual content.
+		</p>
+		<h3>Finishing the Website</h3>
+		<p>To finish up I tweaked some of the CSS to make the layout look similar across the pages and the went on to
+			create the github pages repo so I could upload the website to the web. Creating the landing page in markdown
+			was easier than I thought. I'd never worked with it before but after seeing it in class and looking it up on the
+			web it was pretty intuitive to make a basic page.			
+			</p>
+		<pre>
+			<code class="language-markup">
+				---
+				title: Leo Thalman's Portfolio
+				layout:default
+				---
+				Welcome to my Portfolio
+				-----------------------
+
+				This portfolio contains some of my software developed during my time at Western Oregon University.
+
+				## About Me
+
+				I am currently working towards a B.S. in computer science at Western Oregon University.
+				Part of that program is creating this portfolio to showcase some of my code.
+
+				## Projects
+
+				Below are links to the various projects I have completed.
+				[CS460](../CS460/)
+			</code>
+		</pre>			
+		<p>The landing page for CS 360 and HW1 however I did html and used the same style as I did with
+			the website I created for this assignment.
+		</p>
 	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
 	</body>
 </html>
