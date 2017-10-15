@@ -16,4 +16,4 @@ Part of that program is creating this portfolio to showcase some of my code.
 
 Below are links to the various projects I have completed.
 
-..* [CS460](../cs460/)
+ * [CS460](../cs460/)
