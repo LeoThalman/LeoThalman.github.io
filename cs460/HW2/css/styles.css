@@ -1,0 +1,59 @@
+.row {
+	margin-left:30px;
+}
+
+.errCode {
+	display: block;
+	background: #FF7d66;
+	border-radius:15px;
+	padding: 10px 5px 10px 10px;
+	margin-top: 10px;
+
+}
+.item-out{
+	margin-left:20%;
+}
+
+.title{
+	border-radius: 10px;
+	border: 2px solid #000000;
+	background: #000000;
+	text-align:center;
+	color:white;
+	margin: 10px;
+	padding: 15px;
+}
+
+table{
+	width= 90%;
+}
+
+table th{
+	padding: 0px 13px 0px 13px;
+	border-left:1px solid #000000;
+	border-bottom:1px solid #000000;
+}
+table th:first-child {
+	border-left:none;
+}
+
+table tr td:first-child{
+	border-left:none;
+	padding: 13px 13px 0px 13px;
+}
+
+table tr td{
+	border-left:1px solid #000000;
+	padding: 13px 13px 0px 13px;
+}
+
+.lRow td{
+	border:none;
+	border-top:1px solid #000000;
+}
+
+.lRow td#total{
+	border-left:1px solid #000000;
+}
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">		
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/styles.css" type="text/css">		
+		<title>Cost Tracker</title>
+	</head>
+	<body>
+	 <div class="container-fluid"><h3 class="title">Cost Tracker</h3></div>
+	 <div class="row container">
+	 <div class="col-sm-4">
+	   <h4>Add Item</h4>
+		 <form class="item-in">
+		   Item name:<br><input type="text" id="iName" value=""><br>		
+		   Item amount:<br><input type="number" id="iAmount" value=""><br>	
+		   Item price:<br><input type="number" id="iPrice" value=""><br>
+		   <button type="button">Add to List</button>
+		 </form>
+	   </div>
+	   <div class="col-sm-8">
+		 	<table class="item-out">		
+			<tr>
+				<th>Item Name</th>
+				<th>Item Amount</th>
+				<th>Item Price</th>
+				<th>Total Item Price</th>
+			</tr>
+			<tr class="lRow">
+				<td></td>
+				<td></td>
+				<td>Total Item Cost</td>
+				<td id="total">$0.00</td>
+			</tr>			
+		</table>
+	   </div>
+	 </div>
+	 <script src="js/jquery-3.2.1.js"></script>
+	 <script src="js/application.js"></script>
+	</body>
+</html>
