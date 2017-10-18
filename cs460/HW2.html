@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+		
+		<title>Homework Two</title>
+	</head>
+	<body>
+	 <div class="container-fluid">
+		<ul class="nav">
+			<li><a href="index.html">CS 460</a></li>
+		</ul>
+	 </div>
+	 <div class="container">
+		<h1>Homework Two</h1>
+		  <p>For this assignment we are to care a webpage that utilizes javascript and jquery to take input
+			from the user and manipulate then present the output to the user on the same page. We also have 
+			to create a new git branch called new-feature where we do all the updates to this webpage, and 
+			then merge it back into the master branch once it is finished.</p>
+		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW2.html">here</a></p>
+		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW2">here</a></p>
+		  <p>A demo can be seen <a href="HW2/index.html">here</a></p>
+		<h3>Creating a new branch and wireframe mockup</h3>
+		<p>The first step was to create the new folder and add a branch to it. After initializing the new git
+		repo and linking it to a remote repo on github I added a new branch with</p>
+		<code class="language-git">$ git checkout -b new-feature</code>
+		<p>Once that was done I created an index.html and began to add the basic layout to the file. I decided on
+		creating a simple form of a receipt tracker. This would allow the user to add an item with an amount and price
+		and then would present that information with a total price once submitted. They could also add more items after
+		and the total price would update with each item. The code below is the basic layout I created, with the add item
+		boxes on the left and the item total information presented on the right.</p>
+		<pre>
+			<code class="language-html">
+				&lt;body&gt;
+				 &lt;h3 style="text-align:center;"&gt;Cost Tracker&lt;/h3&gt;
+				 &lt;div class="row"&gt;
+				 &lt;div class="col-sm-auto"&gt;
+				   &lt;h4&gt;Add Item&lt;/h4&gt;
+					 &lt;form&gt;
+					   Item name:&lt;br&gt;&lt;input type="text" name="iName" value=""&gt;&lt;br&gt;		
+					   Item amount:&lt;br&gt;&lt;input type="text" name="iAmount" value=""&gt;&lt;br&gt;	
+					   Item price:&lt;br&gt;&lt;input type="text" name="iPrice" value=""&gt;&lt;br&gt;
+					   &lt;br&gt;	&lt;input type="submit" value="Submit"&gt;
+					 &lt;/form&gt;
+				   &lt;/div&gt;
+				   &lt;div class="col-sm-auto"&gt;
+				   &lt;h4&gt;Item Total&lt;/h4&gt;		 
+				   &lt;/div&gt;
+				 &lt;/div&gt;
+				&lt;/body&gt;			
+			</code>
+		</pre>
+		<p>After this I started looking into jquery and javascript to find the best way to grab the information
+			from the page and maniuplate it. I started off looking into jquery and found a website called try.jquery.com
+			to be quite helpful in learning about jquery. Although we did talk about it in class, the step by step walkthrough helped
+			me to really grasp the basics of jquery. Once I had that down I created an application.js file and added jquery too.
+		    With the javascript files added I began to work on pulling data out of the page with jquery.</p>
+		<pre>
+			<code class="language-js">
+				var name = $('#iName').val();
+				var amount = $('#iAmount').val();
+				var price = $('#iPrice').val();
+			</code>
+		</pre>
+		<p>Before I did any error checking I made sure that all three variables were actually retrieving the right data.
+			At first I tried to traverse to the input elements to pull the data out but I couldn't get it to work right so I settled
+			on id'ing them and grabbing it that way. Once that was done I ran the variables through error checking and found out
+			I had to adjust both the amount and price. When I was retrieving them it was giving them to me as strings so I put them in
+			parse functions so I could use them later on.</p>
+		<pre>
+			<code class="language-js">
+				var amount = parseInt($('#iAmount').val());
+				var price = parseFloat($('#iPrice').val());
+			</code>
+		</pre>
+		<p>Adding rows to the table wasn't too bad. I id'd the last last row and had did an insertBefore on it so I could push the new
+			row in right above and then had to find a way to keep track of the running total. At first I tried to do a forEach on the column
+			that contained the values for total item price but I couldn't get that to work. Next I initialized an array outside the click function
+			and started adding the items to that. For that I decided on making the items objects and pushing them into the array, so I could keep track
+			of all the attributes. With that done I tried another forEach loop and it was still giving me problems so I went with a basic for loop
+			and finally got it too add all item prices and update the data.</p>
+		<pre>
+			<code class="language-js">
+				var total = amount * price;
+				total = parseFloat(total.toFixed(2));
+				var item = {iName : name, iAmount : amount, iPrice: price, iTotal : total};
+				itemArr.push(item);
+				var iRow = $('&lt;tr&gt;&lt;td&gt;'+item.iName+'&lt;/td&gt;&lt;td&gt;'+item.iAmount+'&lt;/td&gt;&lt;td&gt;$'+item.iPrice+'&lt;/td&gt;&lt;td&gt;$'+item.iTotal+'&lt;/td&gt;&lt;/tr&gt;');
+				var cTotal = 0;
+				for(var i = 0; i &lt; itemArr.length; i+=1) {
+					cTotal += itemArr[i].iTotal;
+				}		
+				iRow.insertBefore('.lRow');
+				cTotal = parseFloat(cTotal.toFixed(2));
+				$('#total').text('$'+cTotal);		
+			</code>
+		</pre>
+		<p>Once I had it working I began testing the code with multiple numbers and found that the float numbers would
+			sometimes extend way past the decimal. To fix this I added the toFixed method to restrict it to 2 points past the
+			decimal and then parsed the number back into a float. To be safe I did this for both the total and the running total.
+			After that I added some css to style the page, I kept the style of it similar to homework one however I did add
+			a red box for the error code to make it stand out more. The error code pops up below the add to list button to information
+			the user if the enter any invalid information. After testing some more I felt satisfied and merged it back into master.</p>
+		<pre>
+			<code class="language-git">
+				$ git checkout master
+				$ git merge new-feature
+			</code>
+		</pre>
+		<p>After that I pushed it to the remote, which gave me an error saying that my master branch was behind remote and to pull
+			it before merging and pushing. I tried pulling the branch but it didn't work and said that the two branches had unrelated history.
+			I looked into it and found that I could do a push that would force it to work. Since I am the only one working out of this
+			repo I did that but I'll have to be more careful in the future.
+		</p>
+	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
+	</body>
+</html>
