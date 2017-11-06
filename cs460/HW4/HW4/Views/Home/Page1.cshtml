@@ -1,0 +1,14 @@
+﻿
+
+@*Page title*@
+<h2>@ViewBag.Title</h2>
+
+<form method="post" action="/Home/Page1Text">
+    <label for="temp">Temperature in Celsius or Fahrenheit</label>
+    <input type="number" name="temp" value="" />
+    <label for="tempType">Temp to Convert to (C or F)</label>
+    <input type="text" name="tempType" value="" />
+    <input type="submit" name="submit" value="Convert" />
+</form>
+
+

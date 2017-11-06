@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+		
+		<title>Homework Three</title>
+	</head>
+	<body>
+	 <div class="container-fluid">
+		<ul class="nav">
+			<li><a href="index.html">CS 460</a></li>
+		</ul>
+	 </div>
+	 <div class="container">
+		<h1>Homework Three</h1>
+		  <p>For this assignment we had to use visual studio to create an ASP.NET MVC 5 web application. This web application has 4 pages
+			including the index page. The first page uses the request object to pull data out of the the view. The second page uses a FormCollection 
+			object that is passed to the action method to pull data out of the view. The third page uses model binding to retrieve the data from the view.
+			The purpose of this assignment was to learn the basics of ASP.NET MVC 5 and model binding.</p>
+		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW4.html">here</a></p>
+		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW4">here</a></p>
+		  <p>Demo can be found <a href="/HW4/HW4/Views/Home/Index.cshtml">here</a></p>
+		  <h3>Getting Started</h3>
+		  <p>The first thing to do was create an empty MVC web application project. After making the project and making sure it added
+		  the correct MVC folders I linked the local and remote repos and then created a branch for home called home-feature. With that done
+		  I added a controller named HomeController and began working on the index page. The base code it generated gave me a action method was the following.</p>
+		  <pre>
+			<code class="language-csharp">
+			using System;
+			using System.Collections.Generic;
+			using System.Diagnostics;
+			using System.Linq;
+			using System.Web;
+			using System.Web.Mvc;
+
+			namespace HW4.Controllers
+			{
+				public class HomeController : Controller
+				{
+					// GET: Home
+					public ActionResult Index()
+					{
+						return View();
+					}
+				}
+			}
+			</code>
+		  </pre>
+		  <p>I created a view off Index then a new branch name page1-feature and started working on the first of the three pages. For the get
+			method I made it the same as Index and created the view where I began to enter in the form data. The post method had to create a new page
+			so I linked the form to a separate view that I would create later. After that I filled out the label and input data similar to the example
+			from the lecture.
+		  </p>
+		  <pre>
+			<code class="language-html">
+				&lt;form method="post" action="/Home/Page1Text"&gt;
+					&lt;label for="temp"&gt;Temperature in Celsius or Fahrenheit&lt;/label&gt;
+					&lt;input type="number" name="temp" value="" /&gt;
+					&lt;label for="tempType"&gt;Temp to Convert to (C or F)&lt;/label&gt;
+					&lt;input type="text" name="tempType" value="" /&gt;
+					&lt;input type="submit" name="submit" value="Convert" /&gt;
+				&lt;/form&gt;
+			</code>
+		  </pre>
+		  <p>With the form done I was able to begin working on the Page1Text method that would pull the data out of the form and begin
+			converting temperature and error checking. To get the data from the page I used Request.Form based on the name of the input
+			to assign the data to the variables so I could work with it. After passing it through some error checking and converting it 
+			the correct temp I sent it the separate page which would give your answer or error message.
+		  </p>
+		  <pre>
+			<code class="language-csharp">
+				public ActionResult Page1Text()
+				{
+				if (Request.Form["temp"] != null && Request.Form["tempType"] != null)
+				{
+					string temp = Request.Form["temp"];
+					string tempType = Request.Form["tempType"];
+					ViewBag.Title = "Page 1";
+					tempType = tempType.ToLower();
+					if (Double.TryParse(temp, out double nTemp))
+					{
+						if (tempType.Equals("c"))
+						{
+							nTemp = (nTemp - 32) / 1.8;
+							nTemp = Math.Round(nTemp, 2);
+							ViewBag.Message = "Your temp is " +  nTemp.ToString();
+
+						}
+						else if (tempType.Equals("f"))
+						{
+							nTemp = (nTemp * 1.8) + 32;
+							nTemp = Math.Round(nTemp, 2);
+							ViewBag.Message = "Your temp is " + nTemp.ToString();
+						}
+						else
+						{
+								ViewBag.Message = "Invalid Temperature type, please enter C or F";
+						}
+					}
+						else
+						{
+							ViewBag.Message = "Please enter a Temp number";
+						}
+				}
+				return View();
+				}
+			</code>
+		  </pre>
+		 <p>With the first page done I merged the branch back into home-feature and added a link to it from homepage. I then 
+		 created a new branch called page2-feature and begain working on the Page with FormCollection passed into it. The get method 
+		 was the same as the last and the view I created had a similar form to enter data in. The main difference was in the method signatures
+		 themselves. For the get I added an attribute right above to label it as a get method ( [HttpGet] ) and the post method had a [HttpPost]
+		 attribute above it as well as a FormColletion form parameter. The form parameter was how I got the data from the page, and the I proceeded
+		 to convert the time from hours to minutes or minutes to hours.</p>
+		 
+		 <pre>
+			<code class="language-csharp">
+				[HttpPost]
+				public ActionResult Page2(FormCollection form)
+				{
+					string time = Convert.ToString(form["time"]);
+					string timeType = Convert.ToString(form["timeType"]);
+					ViewBag.Title = "Hour/Minute Converter";
+					timeType = timeType.ToLower();
+					if (Double.TryParse(time, out Double nTime))
+					{
+						if(timeType.Equals("h"))
+						{
+							nTime = nTime / 60;
+							nTime = Math.Round(nTime, 2);
+							ViewBag.Message = "Your time is " + nTime.ToString();
+						}
+						else if (timeType.Equals("m"))
+						{
+							nTime = nTime * 60;
+							nTime = Math.Round(nTime, 2);
+							ViewBag.Message = "Your time is " + nTime.ToString();
+						}
+						else
+						{
+							ViewBag.Message = "Please Enter H or M to convert to" + time.ToString();
+						}
+					}
+					else
+					{
+						ViewBag.Message = "Please enter a time";
+					}
+					return View();
+				}
+			</code>
+		</pre>
+		<p> Once that was done I merged the branch back into home-feature and updated the homepage with a link and started on page3 in its own branch.
+			I had some experience with the formula for loan calculator from business classes I had taken so implementing that wasn't going to be too challenging.
+			Again the get method and view page we're pretty much the same as the last. The post method however was a lot different from the rest. Instead of pulling data
+			through requests or forms I used model binding in the parameters to link the values from the input directly to the method. With those linked I passed
+			the three parameters to a separate method for error checking, if all was good I cast the values to into new variables that were doubles so I 
+			could figure out the loan information. I have them as nullable types in the parameters so that if the user doesn't enter data in a field it doesn't crash.
+		</p>
+		 <pre>
+			<code class="language-csharp">
+				[HttpPost]
+				public ActionResult Page3(double? principal, double? interest, double? termLength)
+				{
+					ViewBag.Title = "Loan Calculator";
+					ViewBag.errMessage = null;
+					if (LoanCheck(principal, interest, termLength))
+					{
+						ViewBag.errMessage = "Please enter a value in all 3 fields";
+					}
+					else
+					{
+						double prin = (double)principal;
+						double iRate = (double)interest;
+						double numP = (double)termLength;
+						iRate = iRate * .01;
+						iRate = iRate / 12;
+						double payment = 0;
+						payment = (iRate * prin) / (1 - Math.Pow((1 + iRate), -numP));
+						double total = payment * numP;
+						total = Math.Round(total, 2);
+						payment = Math.Round(payment, 2);
+						ViewBag.mPay = "Your monthly payment is $" + payment.ToString();
+						ViewBag.tPay = "Your total payment is $" + total.ToString();
+					}
+					return View();
+				}
+			</code>
+		</pre>
+		<p>With that done I merged the page3-feature branch into home-feature and linked the page in the index. After I went through and double checked all the comments and
+			made sure both errors and the intended output worked right.</p>
+	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
+	</body>
+</html>

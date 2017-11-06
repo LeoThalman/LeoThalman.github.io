@@ -1,0 +1,19 @@
+﻿@* Page title*@
+<h2>@ViewBag.Title</h2>
+
+<form method="post">
+    <label for="principal">Loan Amount</label>
+    <input type="number" step="any" name="principal" value="" /><br />
+    <label for="interest">Yearly Interest Rate</label>
+    <input type="number" step="any" name="interest" value="" />%<br />
+    <label for="termLength">Period Length in months</label>
+    <input type="number" step="any" name="termLength" value="" /><br />
+    <input type="submit" name="submit" value="Calculate" />
+</form>
+@* Error Message*@
+<p>@ViewBag.errMessage</p>
+@* Monthly Payments*@
+<p>@ViewBag.mPay</p>
+@* Total amount to be paid*@
+<p>@ViewBag.tPay</p>
+

@@ -1,0 +1,14 @@
+﻿
+@* Page title*@
+<h2>@ViewBag.Title</h2>
+@*error message or time after conversion*@
+<h3>@ViewBag.Message</h3>
+
+<form method="post">
+    <label for="time">Time in Hours or Minutes</label>
+    <input type="text" name="time" value="" />
+    <label for="timeType">Time to convert to (H or M)</label>
+    <input type="text" name="timeType" value="" />
+    <input type="submit" name="submit" value="Convert" />
+</form>
+
