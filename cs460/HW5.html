@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+		
+		<title>Homework Five</title>
+	</head>
+	<body>
+	 <div class="container-fluid">
+		<ul class="nav">
+			<li><a href="index.html">CS 460</a></li>
+		</ul>
+	 </div>
+	 <div class="container">
+		<h1>Homework Five</h1>
+		  <p>For this assignment we created a MVC project that stored data in a local database. The database was a simple one with only one table.
+			The table held data for change of residence records for the DMV, at a minimum all records must be displayed on one page, and able to add
+			a new record on another page. The purpose of this assignment is to learn more about ASP.NET MVC 5 as well as learn how to link a database
+			to the view through models.</p>
+		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW5.html">here</a></p>
+		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW5">here</a></p>
+		  <h3>Getting Started</h3>
+1		  <p>After creating an empty MVC project I made a controller that I was going to use for all the views and then began to work on the database.
+			We had been shown during lecture how to work with and link the database so I had an idea of where to start, as well as the remote repo which
+			contained all the source code from the lecture. At first I kept on running into errors with linking and creating the database which made it so
+			I had to remake the project, but after taking a second look at the code from the lecture I found out where I was making mistakes and managed to put
+			the database in the right spot as well as link it correctly in Web.config. After adding the database to App_Data I created the DAL folder (Data Access Layer) 
+			and put the DmvContext class in it as well as adding the DMV class to Models.
+		  </p>
+		  <h4>DmvContext</h4>
+		  <pre>
+			<code class="language-csharp">
+				namespace HW5.DAL
+				{
+					/// &lt;summary&gt;
+					/// Class to link model file to database
+					/// &lt;/summary&gt;
+					public class DmvContext :DbContext
+					{
+						public DmvContext() : base("name=DmvDBContext")
+						{}
+
+							public virtual DbSet<DMV> DMVs { get; set; }
+					}
+				}
+			</code>
+		  </pre>
+		  
+		  <h4>DMV model with typing</h4>
+		  <pre>
+			<code class="language-csharp">
+				namespace HW5.Models
+				{
+					public class DMV
+					{
+						/// &lt;summary&gt;
+						/// Database fields with required and length restrictions marked as necessary
+						/// &lt;/summary&gt;
+						[Required]
+						public int ID { get; set; }
+
+						[Required, Range( 1, 10000000, ErrorMessage = "Permit must be a postive number less than 8 digits")]
+						public int Permit { get; set; }
+
+						[Required, StringLength(192)]
+						public string FullName { get; set; }
+
+						[Required]
+						public DateTime DOB { get; set; }
+
+						[Required, StringLength(192)]
+						public string ResidenceAddress { get; set; }
+
+						[Required, StringLength(64)]
+						public string City { get; set; }
+
+						[Required, StringLength(2, ErrorMessage = "State must be in Abbv. form(i.e. OR, CA)"), MinLength(2, ErrorMessage="State must be in Abbv. form(i.e. OR, CA)")]
+						public string StateAbbreviated { get; set; }
+
+						[Required, Range(1, 100000, ErrorMessage = "Zipcode must be a postive number less than 6 digits")]
+						public int ZipCode { get; set; }
+
+						[Required, StringLength(64)]
+						public string County { get; set; }
+
+					}
+
+				}
+			</code>
+		  </pre>
+		<h3>Updating Database with db_UP.sql</h3>
+		<p>The data in model and the database needed to have the same values and restrictions, so to ensure that and to make sure I didn't
+			have to reenter the test rows multiple times I used a db_UP.sql file to create the table and insert the rows. I also implmented a 
+			db_DOWN.sql that simply dropped the table created by db_UP.sql.</p>
+		  <pre>
+			<code class="language-sql">
+				CREATE TABLE dbo.DMVs
+				(
+					ID					INT IDENTITY (1,1) NOT NULL,
+					Permit				INT NOT NULL,
+					FullName			NVARCHAR(192) NOT NULL,
+					DOB					DateTime NOT NULL,
+					ResidenceAddress    NVARCHAR(192) NOT NULL,
+					City				NVARCHAR(64) NOT NULL,
+					StateAbbreviated	NVARCHAR(2) NOT NULL, 
+					ZipCode				INT NOT NULL,
+					County				NVARCHAR(64) NOT NULL,
+					CONSTRAINT [PK_dbo.DMVs] PRIMARY KEY CLUSTERED (ID ASC)
+				);
+
+				INSERT INTO dbo.DMVs (Permit,FullName,DOB,ResidenceAddress,City,StateAbbreviated,ZipCode,County) VALUES
+							(8673443, 'Frank Johnson','1942-03-13', '1432 Wyrmwood Rd.' , 'Dallas', 'OR', 33442, 'Polk'),
+							(1937542, 'Frannie Kay','1978-12-1', '132 1st St.' , 'Olympia', 'WA', 42622, 'Filstin'),
+							(6342134, 'Julie Mac','1993-04-25', '6934 Brunst Rd.' , 'Debran', 'GA', 33442, 'Colston'),
+							(7348874, 'Mikhail Monroe','1978-08-09', '192 Central Ave.' , 'Stockland', 'OK', 19276, 'Cricklin'),
+							(2039583, 'Joe Burns','1988-07-22', '3497 Cork St.' , 'Turner', 'MN', 78004, 'Luclad');
+				GO
+			</code>
+		  </pre>
+		<h3>Creating and Editing rows</h3>
+		<p>After checking that the database was updating and dropping correctly I went onto making the index page, as well as creating
+			and editing rows. For all three I relied heavily on the examples from the lecture, I made sure to type all the code myself
+			but I still needed the examples to create the files. The first one I worked on was the index page which I had display all the data
+			database itself. The two code snippets below show the base of the razor code I used to implement the index page.</p>
+	      <pre>
+			<code class="language-html">
+				&lt;table&gt;
+					&lt;tr&gt;
+						&lt;th&gt;
+							@*Titles for the table columns*@
+							@Html.DisplayNameFor(model =&gt; model.ID)
+						&lt;/th&gt;
+						&lt;th&gt;
+							@Html.DisplayNameFor(model =&gt; model.FullName)
+						&lt;/th&gt;
+						&lt;th&gt;
+							@Html.DisplayNameFor(model =&gt; model.Permit)
+						&lt;/th&gt;
+			</code>
+		  </pre>
+		  <pre>
+			<code class="language-html">
+				@foreach (var item in Model)
+					{
+						&lt;tr&gt;
+							&lt;td&gt;
+								@*Data of the name field*@
+								@Html.DisplayFor(modelItem =&gt; item.ID)
+							&lt;/td&gt;
+							&lt;td&gt;
+								@Html.DisplayFor(modelItem =&gt; item.FullName)
+							&lt;/td&gt;
+							&lt;td&gt;
+								@Html.DisplayFor(modelItem =&gt; item.Permit)
+							&lt;/td&gt;
+			</code>
+		  </pre>
+		  <figure>
+			<img src="images/HW5/index-1.bmp">
+			<figcaption>Index page filled with test rows</figcaption>
+		  </figure>
+		  <p>Once I had the index displaying all the test rows I went on to creating and editing the rows. As I mentioned before I used the 
+			source code from class to make sure my code was right, and thus the Create method I used was very similar to the create method from
+			the lecture. I finished the create method first and double checked it was working before moving on to the edit method. The view for the 
+			edit method was almost identical to the create view, and the method itself was similar too.
+		  </p>
+		  <pre>
+			<code class="language-html">
+				@*get the model*@
+				@model HW5.Models.DMV
+
+					@*Title of page*@
+				&lt;h2&gt;@ViewBag.Title&lt;/h2&gt;
+
+				@using (Html.BeginForm())
+				{
+					@*prevents forgery of requests*@
+					@Html.AntiForgeryToken()
+
+					&lt;div class="form-horizontal"&gt;
+						&lt;hr /&gt;
+						@*Gets error messages*@
+						@Html.ValidationSummary(true, "", new { @class="text-danger"})
+
+						&lt;div class="form-group"&gt;
+							@*Label for the field to be edited*@
+							@Html.LabelFor(model =&gt; model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+							&lt;div class="col-md-10"&gt;
+								@*Input box for the field to be edited*@
+								@Html.EditorFor(model =&gt; model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+								@*Error message for the field*@
+								@Html.ValidationMessageFor(model =&gt; model.FullName, "", new { @class = "text-danger" })
+							&lt;/div&gt;
+						&lt;/div&gt;
+			</code>
+		  </pre>
+		  <h4>Create View</h4>
+		  <figure>
+			<img src="images/HW5/create-1.bmp">
+			<figcaption>Create page with correct data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW5/index-2.bmp">
+			<figcaption>Index page after create</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW5/create-2.bmp">
+			<figcaption>Create page with errors</figcaption>
+		  </figure>
+		  <h4>Edit View</h4>
+		  <figure>
+			<img src="images/HW5/edit-1.bmp">
+			<figcaption>Edit page with correct data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW5/index-3.bmp">
+			<figcaption>Index page after edit</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW5/edit-2.bmp">
+			<figcaption>Edit page with errors</figcaption>
+		  </figure>
+		  <p>With the create and edit methods added all I had left to do was to code to make sure the comments and error handling was okay.</p>
+	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
+	</body>
+</html>
