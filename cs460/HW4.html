@@ -10,7 +10,7 @@
 		<!--CSS to highlight code snippets-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
 		
-		<title>Homework Three</title>
+		<title>Homework Four</title>
 	</head>
 	<body>
 	 <div class="container-fluid">
@@ -19,14 +19,13 @@
 		</ul>
 	 </div>
 	 <div class="container">
-		<h1>Homework Three</h1>
+		<h1>Homework Four</h1>
 		  <p>For this assignment we had to use visual studio to create an ASP.NET MVC 5 web application. This web application has 4 pages
 			including the index page. The first page uses the request object to pull data out of the the view. The second page uses a FormCollection 
 			object that is passed to the action method to pull data out of the view. The third page uses model binding to retrieve the data from the view.
 			The purpose of this assignment was to learn the basics of ASP.NET MVC 5 and model binding.</p>
 		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW4.html">here</a></p>
 		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW4">here</a></p>
-		  <p>Demo can be found <a href="/HW4/HW4/Views/Home/Index.cshtml">here</a></p>
 		  <h3>Getting Started</h3>
 		  <p>The first thing to do was create an empty MVC web application project. After making the project and making sure it added
 		  the correct MVC folders I linked the local and remote repos and then created a branch for home called home-feature. With that done
@@ -53,6 +52,11 @@
 			}
 			</code>
 		  </pre>
+		  <figure>
+			<img src="images/HW4/index-page.bmp">
+			<figcaption>Index page with all three links</figcaption>
+		  </figure>
+		  <h3>Page 1</h3>
 		  <p>I created a view off Index then a new branch name page1-feature and started working on the first of the three pages. For the get
 			method I made it the same as Index and created the view where I began to enter in the form data. The post method had to create a new page
 			so I linked the form to a separate view that I would create later. After that I filled out the label and input data similar to the example
@@ -113,6 +117,23 @@
 				}
 			</code>
 		  </pre>
+		  <figure>
+			<img src="images/HW4/page1-1.bmp">
+		  <figcaption>Temp Conversion page with correct data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page1text-1.bmp">
+		  <figcaption>Output</figcaption>
+		  </figure>
+		  	  <figure>
+			<img src="images/HW4/page1-2.bmp">
+		  <figcaption>Temp Conversion page with incorrect data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page1text-2.bmp">
+		  <figcaption>Error page</figcaption>
+		  </figure>
+		  <h3>Page 2</h3>
 		 <p>With the first page done I merged the branch back into home-feature and added a link to it from homepage. I then 
 		 created a new branch called page2-feature and begain working on the Page with FormCollection passed into it. The get method 
 		 was the same as the last and the view I created had a similar form to enter data in. The main difference was in the method signatures
@@ -156,6 +177,23 @@
 				}
 			</code>
 		</pre>
+		  <figure>
+			<img src="images/HW4/page2-1.bmp">
+		  <figcaption>Time Conversion page with correct data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page2-2.bmp">
+		  <figcaption>Output</figcaption>
+		  </figure>
+		  	  <figure>
+			<img src="images/HW4/page2-3.bmp">
+		  <figcaption>Time Conversion page with incorrect data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page2-4.bmp">
+		  <figcaption>Error page</figcaption>
+		  </figure>
+		<h3>Page 3</h3>
 		<p> Once that was done I merged the branch back into home-feature and updated the homepage with a link and started on page3 in its own branch.
 			I had some experience with the formula for loan calculator from business classes I had taken so implementing that wasn't going to be too challenging.
 			Again the get method and view page we're pretty much the same as the last. The post method however was a lot different from the rest. Instead of pulling data
@@ -195,6 +233,22 @@
 		</pre>
 		<p>With that done I merged the page3-feature branch into home-feature and linked the page in the index. After I went through and double checked all the comments and
 			made sure both errors and the intended output worked right.</p>
+		  <figure>
+			<img src="images/HW4/page3-1.bmp">
+		  <figcaption>Loan Calculator with correct data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page3-2.bmp">
+		  <figcaption>Output</figcaption>
+		  </figure>
+		  	  <figure>
+			<img src="images/HW4/page3-3.bmp">
+		  <figcaption>Loan Calculator with incorrect data</figcaption>
+		  </figure>
+		  <figure>
+			<img src="images/HW4/page3-4.bmp">
+		  <figcaption>Error page</figcaption>
+		  </figure>	
 	 </div>
 	 <!--Javascript to highlight code snippets-->
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
