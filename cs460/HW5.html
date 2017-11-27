@@ -8,7 +8,7 @@
 		<!-- Bootstrap CSS-->
 		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 		<!--CSS to highlight code snippets-->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+		<link rel="stylesheet" href="css/prism.css">
 		
 		<title>Homework Five</title>
 	</head>
@@ -27,7 +27,7 @@
 		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW5.html">here</a></p>
 		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW5">here</a></p>
 		  <h3>Getting Started</h3>
-1		  <p>After creating an empty MVC project I made a controller that I was going to use for all the views and then began to work on the database.
+		  <p>After creating an empty MVC project I made a controller that I was going to use for all the views and then began to work on the database.
 			We had been shown during lecture how to work with and link the database so I had an idea of where to start, as well as the remote repo which
 			contained all the source code from the lecture. At first I kept on running into errors with linking and creating the database which made it so
 			I had to remake the project, but after taking a second look at the code from the lecture I found out where I was making mistakes and managed to put
@@ -146,7 +146,7 @@
 			</code>
 		  </pre>
 		  <pre>
-			<code class="language-html">
+			<code class="language-aspnet">
 				@foreach (var item in Model)
 					{
 						&lt;tr&gt;
@@ -172,7 +172,7 @@
 			edit method was almost identical to the create view, and the method itself was similar too.
 		  </p>
 		  <pre>
-			<code class="language-html">
+			<code class="language-aspnet">
 				@*get the model*@
 				@model HW5.Models.DMV
 
@@ -230,6 +230,6 @@
 		  <p>With the create and edit methods added all I had left to do was to code to make sure the comments and error handling was okay.</p>
 	 </div>
 	 <!--Javascript to highlight code snippets-->
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
+	 <script src="js/prism.js"></script>
 	</body>
 </html>
