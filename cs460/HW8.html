@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="css/prism.css">
+		
+		<title>Homework Eight</title>
+	</head>
+	<body>
+	 <div class="container-fluid">
+		<ul class="nav">
+			<li><a href="index.html">CS 460</a></li>
+		</ul>
+	 </div>
+	 <div class="container">
+		<h1>Homework Eight</h1>
+		  <p>For this assignment we were to use everything we learned over the term to create a website with a  multi-relational multi-table database
+			that allows users to look up artists and their artworks. They will be able to view a table of the artists, artworks, and classifications of the artworks
+			as well as be able to add, edit, and delete artists as well as see artists details. The purpose of this assignment is to show that we can take all the skills we have
+			learned and apply them all together, as well as prepare us for the final exam.</p>
+		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW8.html">here</a></p>
+		  <p>The source code can be found <a href="https://github.com/LeoThalman/HW8">here</a></p>
+		  <p>The website can be found <a href ="http://lthw8.azurewebsites.net/">here</a> </p>
+		  <h3>Getting Started</h3>
+		  <p>The first step, after making the MVC application, was to build the database. the basic layout for the database can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW8_tables.html">here.</a>
+			 I built the UP and DOWN scripts as I have been doing, and made sure to include the insert statments to fill the database. The UP script was similar to the ones that I have been building, except for adding the
+			 relationships to the tables. I hadn't added those in the previous databases but after some research it proved to be quite easy. Below is a snippet of the up script to demonstrate the foreign key relationships.</p>
+		  <pre>
+			<code class="language-sql">
+				CREATE TABLE dbo.Artist
+				(
+					ID			INT IDENTITY (1,1) NOT NULL,
+					Name		NVARCHAR(50) NOT NULL,
+					BirthDate	Date NOT NULL,
+					BirthCity	NVARCHAR(100) NOT NULL,
+					CONSTRAINT [PK_dbo.Artist] PRIMARY KEY CLUSTERED (Name)
+				);
+
+				CREATE TABLE dbo.ArtWork
+				(
+					ID			INT IDENTITY (1,1) NOT NULL,
+					Title		NVARCHAR(100) NOT NULL,
+					Artist		NVARCHAR(50) NOT NULL,
+					CONSTRAINT [PK_dbo.ArtWork] PRIMARY KEY CLUSTERED (Title),
+					CONSTRAINT [FK_dbo.Artist] FOREIGN KEY (Artist)
+						REFERENCES dbo.Artist (Name)
+						ON DELETE CASCADE
+						ON UPDATE CASCADE
+				);
+			</code>
+		  </pre>
+		  <p> For the foreign key relationship to work the foreign has to be a primary key in the referenced table, or it has to be unique. I decided to make the names and 
+			titles the primary and foreign keys so that I could access those more easily. Once I had the UP and DOWN scripts working I went on to adding the views of the tables.
+			I went with the Artists view first, and built the others around that basis. I used HW5 as a guide for both the table views and the create and edit methods. The view 
+			was pretty basic, I started with this.
+		  </p>
+		  <pre>
+			<code class="language-html">		  
+			  &lt;table&gt;
+				&lt;tr&gt;
+					&lt;th&gt;
+						Artists Name
+					&lt;/th&gt;
+					&lt;th&gt;
+						Birth Date
+					&lt;/th&gt;
+					&lt;th&gt;
+						Birth City
+					&lt;/th&gt;
+				&lt;/tr&gt;
+				@foreach (var artist in Model.Artists)
+				{
+				&lt;tr&gt;
+					&lt;td&gt;
+						@artist.Name
+					&lt;/td&gt;
+					&lt;td&gt;
+						@artist.BirthDate
+					&lt;/td&gt;
+					&lt;td&gt;
+						@artist.BirthCity
+					&lt;/td&gt;
+				&lt;/tr&gt;
+			</code>
+		  </pre>
+		  <p> The only difference is I used a view model and passed the data through that. After the table views I added the create and edit methods, which were also pulled from HW5.
+			The only thing that changed in the view for both methods was the model names. The code to add/edit the row in artists also turned out the same, below are two code snippets 
+			detailing both the view and the action method of creating a row in the artists table.
+		  </p>
+		  <pre>
+			<code class="language-html">
+				@using (Html.BeginForm())
+				{
+					@Html.AntiForgeryToken()
+
+					&lt;div class="form-horizontal"&gt;
+						&lt;hr /&gt;
+						
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+						&lt;div class="form-group"&gt;
+							@Html.LabelFor(model =&gt; model.AnArtist.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+							&lt;div class="col-md-10"&gt;
+								@Html.EditorFor(model =&gt; model.AnArtist.Name, new { htmlAttributes = new { @class = "form-control" } })
+								@Html.ValidationMessageFor(model =&gt; model.AnArtist.Name, "", new { @class = "text-danger" })
+							&lt;/div&gt;
+						&lt;/div&gt;
+			</code>
+		  </pre>
+		  <pre>
+			<code class="language-csharp">
+				if(ModelState.IsValid)
+				{
+					if(AnArtist.BirthDate > DateTime.Today)
+					{
+						VM.AnArtist = AnArtist;
+						return View(VM);
+					}
+					VM.Db.Artists.Add(AnArtist);
+					VM.Db.SaveChanges();
+					return RedirectToAction("Artists");
+				}
+				return View(VM);
+			</code>
+		  </pre>
+		  <p> After that the last thing to do was add buttons and an ajax call to the homepage to allow the user to generate a table of all artwork of a specific genre.
+			This needed to be done through ajax so that the page doesn't have to reload with each call to a new genre. Given that we didn't have to pull out of a json object
+			like we did with giphy this call turned out to be rather easy. I had to create a new model for the data because the foreign key relationships were causing it to throw
+			errors whenever it tried to convert it to json. Other than that everything turned out okay. For the ajax call itself I used this.
+		  </p>
+		  <pre>
+			<code class="language-js">
+				$('.genre').click(function () {
+					var genre = $(this).val();
+					var query = "Art/Search?genre=" + genre;
+					$.ajax({
+						type: "GET",
+						dataType: "json",
+						url: query,
+						success: loadArt,
+						error: failed
+					});
+				});
+
+				function loadArt(data) {
+					$('.artTable').empty();   
+					var temp = JSON.parse(data);
+					$('.artTable').append('&lt;tr&gt; &lt;th&gt; Artist Name &lt;/th&gt;&lt;th&gt;Title of Art&lt;/th&gt;&lt;/tr&gt;');
+					for (var i = 0; i &lt; temp.length; i += 1) {
+						$('.artTable').append('&lt;tr&gt; &lt;td&gt;' + temp[i].Artist + '&lt;/td&gt;&lt;td&gt; ' + temp[i].Title + '&lt;/td&gt;&lt;/tr&gt;');
+					}
+
+				}
+			</code>
+		  </pre>
+		  <p> I gave the input buttons the class genre so that I could access them without having to give them each a unique ID, and I used the $(this) to get the value of the button that was clicked.
+			  Once ajax retrieved the data it would pass it to the loadArt function which parses the data into a variable so it can be accessed like an array. The code from the server can be seen below.
+		  </p>
+		  
+		  <pre>
+			<code class="language-csharp">
+				List<String> temp = VM.Db.Classifications.Where(g => g.Genre == genre).Select(g => g.ArtWork).ToList();
+				List<ArtTable> tempart = new List<ArtTable>();
+				ArtWork t;
+				ArtTable aTemp;
+				foreach (String art in temp)
+				{
+					aTemp = new ArtTable();
+					t = VM.Db.ArtWorks.Where(a => a.Title == art).FirstOrDefault();
+					aTemp.Artist = t.Artist;
+					aTemp.Title = t.Title;
+					tempart.Add(aTemp);
+				}
+				string rjson = JsonConvert.SerializeObject(tempart, Formatting.Indented);
+				return Json(rjson, JsonRequestBehavior.AllowGet);
+			</code>
+		  </pre>
+		  <p> A much more simplified version than HW7, this simply gets a list of artwork titles based on genre, then adds both the artwork title and the artist name to the list that will be passed background
+			to the view as a json object. the last two lines convert the list into json format and pass it back to the view. Once I had this working I went through and made sure to double check I had comments
+			and to add some tweaks to the css.
+		  </p>
+	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="js/prism.js"></script>
+	</body>
+</html>

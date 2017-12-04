@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!--My CSS-->
+		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<!--CSS to highlight code snippets-->
+		<link rel="stylesheet" href="css/prism.css">
+		
+		<title>Homework Nine</title>
+	</head>
+	<body>
+	 <div class="container-fluid">
+		<ul class="nav">
+			<li><a href="index.html">CS 460</a></li>
+		</ul>
+	 </div>
+	 <div class="container">
+		<h1>Homework Nine</h1>
+		  <p>For this assign we had to take our project from homework 8 and deploy it to the cloud. The purpose of this assignment is to get some experience
+			deploying a project to the cloud, as well as set up an account so that we can do so.</p>
+		  <p>The assignment can be found <a href="http://www.wou.edu/~morses/classes/cs46x/assignments/HW9.html">here</a></p>
+		  <p>The website can be found <a href ="http://lthw8.azurewebsites.net/">here</a> </p>
+		  <h3>Getting Started</h3>
+		  <p>Creating the account wasn't hard, I followed the link provided in and signed up for the account then went on to the process of deploying the project. First I had to create
+			a resource group to hold everything. To do that I clicked on the resource group button in the menu on the left and the clicked the add button. doing that brought up the two tabs shown
+			in the image below, I filled out the information and created the resource group.</p>
+		  <img src="images/HW9/create-resource.bmp">
+		  <h3>Creating Server and database</h3>
+		  <p>Once I had the resource group created I could go on to creating the server and the database. I had to create the server first so that I had somewhere to put the database. I found that by going to
+			SQL databases and trying to add one, which presented the add SQL database menu that let me go on to the create server menu.
+		  </p>
+  		  <img src="images/HW9/create-server.bmp">
+		  <p>Once I had that done I went back to the create database menu and added in a new database for HW8, I dropped the pricing tier down to basic because the website doesn't need to be functional for a retail
+		  scenario. Once that was deployed I grabbed the connection string from it and replaced the one I had in HW8 so that I could deploy the database to the new one I had just made.
+		  </p>
+		  <img src="images/HW9/create-database.bmp">
+		  <h3>Publishing the Website</h3>
+		  <p>Now that I had the database connected and the tables populated it was time to publish the project. To do this I went under build and clicked on publish. This brought up a menu which asked me what I wanted the
+			publish target to be, I chose Microsoft Azure App Service as thats where we're putting it and the following image is what came up next.
+		  </p>
+		  <img src="images/HW9/publish-appService.bmp">
+		  <p>Once that was done it brought up another connecting it brought up another menu saying that azure was configured and and option to publish with a dropdown menu next to it. I clicked the publish button and it began
+		  the process of publishing this to azure. After a little bit I got back the okay from visual studio and checked the website to see everything working.</p>
+		  <img src="images/HW9/publish-success.bmp">
+	 </div>
+	 <!--Javascript to highlight code snippets-->
+	 <script src="js/prism.js"></script>
+	</body>
+</html>
