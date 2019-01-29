@@ -9,11 +9,14 @@ This portfolio contains some of my software developed during my time at Western 
 
 ## About Me
 
-I am currently working towards a B.S. in computer science at Western Oregon University.
-Part of that program is creating this portfolio to showcase some of my code.
+I will graduate in June of 2019 with a B.S. in computer science at Western Oregon University. 
+Once I graduate I will be able to work as a Software Developer and will continue my education
+in Software Development and Networking.
 
 ## Projects
 
 Below are links to the various projects I have completed.
 
- * [CS460](../cs460/)
+ * [CS460 Homework](../cs460/)
+ * [Oodle](../Oodle/)
+ * [Wolfit](../Wolfit/)
